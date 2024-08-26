@@ -7,3 +7,15 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+1000.times do |i|
+  Place.create(
+    name: Faker::Address.street_address,
+    description: Faker::Lorem.paragraph,
+    city: Faker::Address.city,
+    state: Faker::Address.state,
+    country: Faker::Address.country,
+    latitude: Faker::Address.latitude,
+    longitude: Faker::Address.longitude,
+  )
+  puts "place #{i+1} created successfully"
+end
