@@ -1,11 +1,20 @@
 class Api::V1::PlacesController < ApplicationController
-  before_action :set_place, only: %i[show update]
+  before_action :set_place, only: %i[show update destroy]
   def index
     @places = Place.all
     render json: @places
   end
   def show
     render json: @place
+  end
+
+  def create
+    @place = Place.new(place_params)
+    if @place.save
+      render json: @place
+    else
+      render json: @place.errors, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -17,6 +26,11 @@ class Api::V1::PlacesController < ApplicationController
       # render json: @place.errors.full_messages, status: :unprocessable_entity
       # render json: {errors: @place.errors.full_messages}, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @place.destroy
+    render json: {status: 'success', message: 'place has been deleted successfully'}
   end
 
   private
