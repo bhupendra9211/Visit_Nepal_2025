@@ -2,7 +2,10 @@ class Api::V1::PlacesController < ApplicationController
   before_action :set_place, only: %i[show update destroy]
   def index
     @places = Place.all
-    render json: @places
+    # render json: @places
+    # render json: @places.as_json(include: :images)
+    render json: @places.as_json(include: {images: {only: %i[id url]}})
+    # render json: @places.map {|place| place.as_json(include: {images: {only: %i[id url]}})}
   end
   def show
     # render json: @place
