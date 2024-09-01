@@ -1,3 +1,4 @@
 class Place < ApplicationRecord
   validates :name, :description, :latitude, :longitude, :city, :state, :country, presence: true
+  has_many :images, as: :imageable
 end

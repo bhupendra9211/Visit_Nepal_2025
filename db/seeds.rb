@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 1000.times do |i|
-  Place.create(
+  place = Place.create(
     name: Faker::Address.street_address,
     description: Faker::Lorem.paragraph,
     city: Faker::Address.city,
@@ -18,4 +18,7 @@
     longitude: Faker::Address.longitude,
   )
   puts "place #{i+1} created successfully"
+  10.times do |i|
+    place.images.create(url: Faker::LoremFlickr.image)
+  end
 end
