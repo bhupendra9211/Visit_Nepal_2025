@@ -1,11 +1,17 @@
 class Api::V1::PlacesController < ApplicationController
   before_action :set_place, only: %i[show update destroy]
+  # # This index is performing n+1 query we can resolve n+1 query using eager loading
+  # # we need to do eager loading when we are dealing with parent with their associated data
+  # def index
+  #   @places = Place.all
+  #   # render json: @places
+  #   # render json: @places.as_json(include: :images)
+  #   render json: @places.as_json(include: {images: {only: %i[id url]}})
+  #   # render json: @places.map {|place| place.as_json(include: {images: {only: %i[id url]}})}
+  # end
   def index
-    @places = Place.all
-    # render json: @places
-    # render json: @places.as_json(include: :images)
-    render json: @places.as_json(include: {images: {only: %i[id url]}})
-    # render json: @places.map {|place| place.as_json(include: {images: {only: %i[id url]}})}
+    @places = Place.includes(:images)
+    render json: @places.as_json(include: { images: {only: %i[id url]}})
   end
   def show
     # render json: @place
