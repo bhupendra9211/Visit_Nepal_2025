@@ -5,9 +5,10 @@ class Api::V1::PlacesController < ApplicationController
     render json: @places
   end
   def show
-    render json: @place
+    # render json: @place
+    # render json: @place.as_json(include: :images)
+    render json: @place.as_json(include: { images: { only: %i[id url] } } )
   end
-
   def create
     @place = Place.new(place_params)
     if @place.save
@@ -16,7 +17,6 @@ class Api::V1::PlacesController < ApplicationController
       render json: @place.errors, status: :unprocessable_entity
     end
   end
-
   def update
     if @place.update(place_params)
       render json: @place
@@ -27,7 +27,6 @@ class Api::V1::PlacesController < ApplicationController
       # render json: {errors: @place.errors.full_messages}, status: :unprocessable_entity
     end
   end
-
   def destroy
     @place.destroy
     render json: {status: 'success', message: 'place has been deleted successfully'}
